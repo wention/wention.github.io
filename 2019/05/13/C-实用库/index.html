@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>C++ 实用库 | WENTION&#39;s Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.  spdlog非常好用的 C++11 日志库，支持 fmt 格式化。  Header only 支持跨平台， Linux, Mac (clang 3.5+), Windows (msvc 2013+, cygwin), Android 支持异步 IO 支持自定义格式化 支持多线程 支持二进制文件格式 支持  Rotating, Daily, console, syslog, Windows">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 实用库">
+<meta property="og:url" content="https://blog.tornets.com/2019/05/13/C-实用库/index.html">
+<meta property="og:site_name" content="WENTION&#39;s Note">
+<meta property="og:description" content="1.  spdlog非常好用的 C++11 日志库，支持 fmt 格式化。  Header only 支持跨平台， Linux, Mac (clang 3.5+), Windows (msvc 2013+, cygwin), Android 支持异步 IO 支持自定义格式化 支持多线程 支持二进制文件格式 支持  Rotating, Daily, console, syslog, Windows">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://raw.githubusercontent.com/nlohmann/json/master/doc/json.gif">
+<meta property="og:updated_time" content="2019-06-07T15:51:52.233Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++ 实用库">
+<meta name="twitter:description" content="1.  spdlog非常好用的 C++11 日志库，支持 fmt 格式化。  Header only 支持跨平台， Linux, Mac (clang 3.5+), Windows (msvc 2013+, cygwin), Android 支持异步 IO 支持自定义格式化 支持多线程 支持二进制文件格式 支持  Rotating, Daily, console, syslog, Windows">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/nlohmann/json/master/doc/json.gif">
+  
+    <link rel="alternate" href="../../../../atom.xml" title="WENTION&#39;s Note" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../../../index.html" id="logo">WENTION&#39;s Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="../../../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../../../archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../../../atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.tornets.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-C-实用库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href class="article-date">
+  <time datetime="2019-05-13T02:11:07.000Z" itemprop="datePublished">2019-05-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++ 实用库
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="1-spdlog"><a href="#1-spdlog" class="headerlink" title="1.  spdlog"></a>1.  <a href="https://github.com/gabime/spdlog" target="_blank" rel="noopener">spdlog</a></h5><p>非常好用的 C++11 日志库，支持 <strong><em>fmt</em></strong> 格式化。</p>
+<ul>
+<li>Header only</li>
+<li>支持跨平台， Linux, Mac (clang 3.5+), Windows (msvc 2013+, cygwin), Android</li>
+<li>支持异步 IO</li>
+<li>支持自定义格式化</li>
+<li>支持多线程</li>
+<li>支持二进制文件格式</li>
+<li>支持  Rotating, Daily, console, syslog, Windows debugger 以及自定义扩展</li>
+</ul>
+<h5 id="2-nlohmann-json"><a href="#2-nlohmann-json" class="headerlink" title="2.  nlohmann/json"></a>2.  <a href="https://github.com/nlohmann/json" target="_blank" rel="noopener">nlohmann/json</a></h5><p>这不是一个追求性能的 json 库， 但我觉得这是用起来最方便的一个。<br>它可以让你像在 Python 中一样方便直观的调用，组建  json。</p>
+<p><img src="https://raw.githubusercontent.com/nlohmann/json/master/doc/json.gif" alt></p>
+<h5 id="3-fmt"><a href="#3-fmt" class="headerlink" title="3.  fmt"></a>3.  <a href="https://github.com/fmtlib/fmt" target="_blank" rel="noopener">fmt</a></h5><p>快速且安全的格式化库，可替代 标准库 <strong>(s)printf</strong> 和 <strong>iostreams</strong></p>
+<ul>
+<li>相比标准库更快的速度 参见 <a href="https://github.com/fmtlib/fmt#speed-tests" target="_blank" rel="noopener">Benchmark</a></li>
+<li>支持自定义类型的格格化</li>
+<li>类<strong>Python</strong> <strong><em>str.format</em></strong> 的语法风格</li>
+<li>类型安全及自动内存管理，编译时错误报告</li>
+<li>支持宽字符</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.tornets.com/2019/05/13/C-实用库/" data-id="cjwmc304l0001blcosedp4zuf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/C/">C++</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../../28/C-11-std-function-与-std-bind-的使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C++11 std::function 与 std::bind 的使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="../../12/Linux-rootfs-文件系统加密/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux rootfs 文件系统加密</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../../../tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../../../tags/C-11/">C++11</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../../../tags/Cryptsetup/">Cryptsetup</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../../../tags/Filesystem/">Filesystem</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../../../tags/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../../../../tags/C/" style="font-size: 20px;">C++</a> <a href="../../../../tags/C-11/" style="font-size: 10px;">C++11</a> <a href="../../../../tags/Cryptsetup/" style="font-size: 10px;">Cryptsetup</a> <a href="../../../../tags/Filesystem/" style="font-size: 10px;">Filesystem</a> <a href="../../../../tags/Linux/" style="font-size: 10px;">Linux</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2019/05/">May 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../../../06/07/Read-Mark/">Read Mark</a>
+          </li>
+        
+          <li>
+            <a href="../../28/C-11-std-function-与-std-bind-的使用/">C++11 std::function 与 std::bind 的使用</a>
+          </li>
+        
+          <li>
+            <a href>C++ 实用库</a>
+          </li>
+        
+          <li>
+            <a href="../../12/Linux-rootfs-文件系统加密/">Linux rootfs 文件系统加密</a>
+          </li>
+        
+          <li>
+            <a href="../../08/Extra-setting-after-ubuntu-installation/">Extra setting after ubuntu installation</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 wention<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="../../../../fancybox/jquery.fancybox.css">
+  <script src="../../../../fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="../../../../js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

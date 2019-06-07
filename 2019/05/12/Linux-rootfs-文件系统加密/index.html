@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Linux rootfs 文件系统加密 | WENTION&#39;s Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Cryptsetup 的使用 首先是创建加密 key, 和待加密的虚拟块设备文件（也可以直接使用物理块设备测试） 。  12➜ dd if=/dev/urandom of=key.img bs=1024 count=1➜ dd if=/dev/zero of=data.img bs=1 count seek=1G count=0   接着开始使用 cryptsetup 格式化加密设备，这里使用 l">
+<meta name="keywords" content="Linux,Filesystem,Cryptsetup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux rootfs 文件系统加密">
+<meta property="og:url" content="https://blog.tornets.com/2019/05/12/Linux-rootfs-文件系统加密/index.html">
+<meta property="og:site_name" content="WENTION&#39;s Note">
+<meta property="og:description" content="Cryptsetup 的使用 首先是创建加密 key, 和待加密的虚拟块设备文件（也可以直接使用物理块设备测试） 。  12➜ dd if=/dev/urandom of=key.img bs=1024 count=1➜ dd if=/dev/zero of=data.img bs=1 count seek=1G count=0   接着开始使用 cryptsetup 格式化加密设备，这里使用 l">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-06-07T15:51:52.233Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux rootfs 文件系统加密">
+<meta name="twitter:description" content="Cryptsetup 的使用 首先是创建加密 key, 和待加密的虚拟块设备文件（也可以直接使用物理块设备测试） 。  12➜ dd if=/dev/urandom of=key.img bs=1024 count=1➜ dd if=/dev/zero of=data.img bs=1 count seek=1G count=0   接着开始使用 cryptsetup 格式化加密设备，这里使用 l">
+  
+    <link rel="alternate" href="../../../../atom.xml" title="WENTION&#39;s Note" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../../../index.html" id="logo">WENTION&#39;s Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="../../../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../../../archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../../../atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.tornets.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Linux-rootfs-文件系统加密" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href class="article-date">
+  <time datetime="2019-05-12T13:32:43.000Z" itemprop="datePublished">2019-05-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux rootfs 文件系统加密
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Cryptsetup-的使用"><a href="#Cryptsetup-的使用" class="headerlink" title="Cryptsetup 的使用"></a>Cryptsetup 的使用</h2><ol>
+<li>首先是创建加密 key, 和待加密的虚拟块设备文件（也可以直接使用物理块设备测试） 。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜ dd <span class="keyword">if</span>=/dev/urandom of=key.img bs=1024 count=1</span><br><span class="line">➜ dd <span class="keyword">if</span>=/dev/zero of=data.img bs=1 count seek=1G count=0</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>接着开始使用 <strong>cryptsetup</strong> 格式化加密设备，这里使用 <strong>luks</strong> 加密格式。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜ sudo cryptsetup luksFormat data.img key.img</span><br><span class="line"></span><br><span class="line">WARNING!</span><br><span class="line">========</span><br><span class="line">This will overwrite data on data.img irrevocably.</span><br><span class="line"></span><br><span class="line">Are you sure? (Type uppercase yes): YES</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意这里 YES 是大写。<br>当然如果不指定 key 文件，它会提示你手动输入密码<br>批处理的话可以直接 <code>echo &#39;password&#39; | cryptsetup luksFormat data.img</code></p>
+</blockquote>
+<p>格式化完后，可以看到 data.img 文件的 <strong><em>file</em></strong> 信息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.img: LUKS encrypted file, ver 1 [aes, xts-plain64, sha1] UUID: ec445173-d874-4d9b-953e-895114ecc4be</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>打开 data.img 设备文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜ sudo cryptsetup luksOpen data.img rootfs --key-file key.img</span><br></pre></td></tr></table></figure>
+
+<p>如果成功执行，可以在 lsblk 中看到我们的加密文件已经映射成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">➜ sudo lsblk</span><br><span class="line"></span><br><span class="line">NAME                  MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT</span><br><span class="line">loop1                   7:1    0     1G  0 loop</span><br><span class="line">└─rootfs              253:9    0  1022M  0 crypt</span><br><span class="line">vda                   252:0    0   120G  0 disk</span><br><span class="line">|-vda1                252:1    0  1023M  0 part  /boot</span><br><span class="line">|-vda2                252:2    0     1G  0 part</span><br><span class="line">`-vda3                252:3    0   118G  0 part</span><br><span class="line">  |-hdd-root01        253:0    0     5G  0 lvm   /</span><br><span class="line">  |-hdd-root02        253:1    0     5G  0 lvm</span><br><span class="line">  `-hdd-totaldata     253:2    0   107G  0 lvm   /totaldata</span><br><span class="line"></span><br><span class="line">➜ sudo losetup -l                                                           </span><br><span class="line">NAME       SIZELIMIT OFFSET AUTOCLEAR RO BACK-FILE</span><br><span class="line">/dev/loop1         0      0         1  0 /data/images/data.img</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>接下来我们就可以像操作块设备一样来操作它了。</p>
+<p>比如,  我们首先创建一个文件系统。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜ sudo mkfs.ext4 /dev/mapper/rootfs</span><br><span class="line">mke2fs 1.42.13 (17-May-2015)</span><br><span class="line">Creating filesystem with 261632 4k blocks and 65408 inodes</span><br><span class="line">Filesystem UUID: d8ac8e88-bc85-42df-8bcd-24916dcf1bce</span><br><span class="line">Superblock backups stored on blocks:</span><br><span class="line">        32768, 98304, 163840, 229376</span><br><span class="line"></span><br><span class="line">Allocating group tables: done</span><br><span class="line">Writing inode tables: done</span><br><span class="line">Creating journal (4096 blocks): done</span><br><span class="line">Writing superblocks and filesystem accounting information: done</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>最后关闭加密设备</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜ sudo cryptsetup close rootfs</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="使用-Cryptsetup-加密系统"><a href="#使用-Cryptsetup-加密系统" class="headerlink" title="使用 Cryptsetup 加密系统"></a>使用 Cryptsetup 加密系统</h2><p>Linux 磁盘加密一般分为 home 目录加密码和 rootfs 加密， 以及全盘加密。</p>
+<p>不同 linux 分行版上相关配置会略有不同， 主要体现在 grub 启动参数， 以及 initrd 上的配置。</p>
+<p>这里主要讨论 <strong><em>Ubuntu 18.04</em></strong> rootfs 加密。</p>
+<p>配置 initramfs</p>
+<p>添加配置文件 /etc/initramfs-tools/cond.d/cryptsetup:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CRYPTESETUP=y</span><br></pre></td></tr></table></figure>
+
+<p>同时在 <a href="https://wiki.archlinux.org/index.php/Crypttab" target="_blank" rel="noopener">crypttab</a> and <a href="https://wiki.archlinux.org/index.php/Fstab" target="_blank" rel="noopener">fstab</a> 配置启动挂载信息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/etc/crypttab</span><br><span class="line">rootfs UUID=1c6509d8-d807-45a3-82ac-f39235298fef none luks</span><br><span class="line"></span><br><span class="line">/etc/fstab</span><br><span class="line">/dev/mapper/rootfs        /   ext4        defaults        0       2</span><br></pre></td></tr></table></figure>
+
+<p>最后生成 initramfs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜ sudo update-initramfs -u</span><br></pre></td></tr></table></figure>
+
+<p>Ubuntu 18.04 中 grub 配置示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root=/dev/mapper/rootfs cryptopts=target=rootfs,source=UUID=1c6509d8-d807-45a3-82ac-f39235298fef,lvm=hdd-root02</span><br></pre></td></tr></table></figure>
+
+<p>CentOS 7 中 grub 配置示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root=/dev/mapper/luks-ae2ad428-3cd7-4fa0-9fa8-1a1c8b90b25a ro crashkernel=auto rd.luks.uuid=luks-ae2ad428-3cd7-4fa0-9fa8-1a1c8b90b25a rd.lvm.lv=ssd/root</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>配置 rootfs 加密， 必须更新 initramfs， 否则系统无法启动。</p>
+<p>同时配置无密确解锁时，必须将 key 文件 注入 initrd 中。</p>
+<p>具体 <strong>cryptopts</strong> 参数可以查看 源文件：/usr/share/initramfs-tools/hooks/cryptroot:get_device_opts</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.tornets.com/2019/05/12/Linux-rootfs-文件系统加密/" data-id="cjwmc304s0005blco0fto3bm1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/Cryptsetup/">Cryptsetup</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/Filesystem/">Filesystem</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/Linux/">Linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../../13/C-实用库/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C++ 实用库
+        
+      </div>
+    </a>
+  
+  
+    <a href="../../08/Extra-setting-after-ubuntu-installation/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Extra setting after ubuntu installation</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../../../tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../../../tags/C-11/">C++11</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../../../tags/Cryptsetup/">Cryptsetup</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../../../tags/Filesystem/">Filesystem</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../../../tags/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../../../../tags/C/" style="font-size: 20px;">C++</a> <a href="../../../../tags/C-11/" style="font-size: 10px;">C++11</a> <a href="../../../../tags/Cryptsetup/" style="font-size: 10px;">Cryptsetup</a> <a href="../../../../tags/Filesystem/" style="font-size: 10px;">Filesystem</a> <a href="../../../../tags/Linux/" style="font-size: 10px;">Linux</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2019/05/">May 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../../../06/07/Read-Mark/">Read Mark</a>
+          </li>
+        
+          <li>
+            <a href="../../28/C-11-std-function-与-std-bind-的使用/">C++11 std::function 与 std::bind 的使用</a>
+          </li>
+        
+          <li>
+            <a href="../../13/C-实用库/">C++ 实用库</a>
+          </li>
+        
+          <li>
+            <a href>Linux rootfs 文件系统加密</a>
+          </li>
+        
+          <li>
+            <a href="../../08/Extra-setting-after-ubuntu-installation/">Extra setting after ubuntu installation</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 wention<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="../../../../fancybox/jquery.fancybox.css">
+  <script src="../../../../fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="../../../../js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
